@@ -1,3 +1,53 @@
+/* CLICK TO PLAY SCREEN */
+#introScreen {
+  position: fixed;
+  inset: 0;
+  background: #fff0f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  overflow: hidden;
+}
+
+/* Fullscreen GIF */
+#introScreen img {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;     /* covers entire screen */
+  /*transform: scale(0.82); */
+  cursor: pointer;
+}
+
+/* Centered cursive text */
+.play-text {
+  position: relative;
+  z-index: 2;
+
+  font-size: 42px;
+  font-weight: 700;
+  font-family: 'Pacifico', cursive;
+
+  color: rgb(111, 16, 16);                 
+
+  /* white outline */
+  text-shadow:
+    -2px -2px 0 #fff,
+     2px -2px 0 #fff,
+    -2px  2px 0 #fff,
+     2px  2px 0 #fff,
+     0  6px 14px rgba(0,0,0,0.35);
+
+  pointer-events: none;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+
+
+
+
 /* Page background */
 body {
   margin: 0;

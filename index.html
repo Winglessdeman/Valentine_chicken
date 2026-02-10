@@ -7,10 +7,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
 </head>
 <body>
+
+<!-- CLICK TO PLAY SCREEN -->
+<div id="introScreen">
+  <img
+    src="images/play.gif"
+    alt="Click to play"
+    id="playGif"
+  />
+  <p class="play-text">Click to play</p>
+</div>
+
+<!-- MAIN APP --> 
 
 <div id="container">
   <div class="card">
@@ -24,7 +37,8 @@
     ></h1>
 
 
-    <div class="buttons">
+    <div class="buttons" id="homeButtons" style="display:none;">
+
       <button id="yesBtn">
         YES <span id="heartEmoji">❤️</span>
       </button>

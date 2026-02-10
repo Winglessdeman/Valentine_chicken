@@ -8,6 +8,26 @@ function startMusicOnce() {
   }
 }
 
+const introScreen = document.getElementById("introScreen");
+const playGif = document.getElementById("playGif");
+
+
+if (playGif) {
+  playGif.addEventListener("click", () => {
+    // Start music (browser-approved)
+    startBackgroundMusic();
+
+    // Hide intro
+    introScreen.style.display = "none";
+
+    // Show main app
+    container.style.display = "flex";
+
+    // Start homepage typewriter
+    rebindHomeEvents();
+  });
+}
+
 
 /* ---------- Emoji Shake Helper ---------- */
 function shakeEmoji(heart, emoji) {
@@ -170,11 +190,18 @@ function showSureLevel2() {
 
 function typeMainQuestion() {
   const el = document.getElementById("mainQuestion");
+  const buttons = document.getElementById("homeButtons");
   if (!el) return;
 
   const text = el.dataset.text;
-  typeText(el, text, 90);
+
+  typeText(el, text, 90, () => {
+    if (buttons) {
+      buttons.style.display = "flex";
+    }
+  });
 }
+
 
 
 /* ---------- Typewriter ---------- */
@@ -279,13 +306,6 @@ function restoreHome() {
   rebindHomeEvents();
 }
 
-
-
-
-/* ---------- Init ---------- */
-
-
-rebindHomeEvents();
 
 
 

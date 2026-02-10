@@ -215,22 +215,30 @@ function showFinalMessage() {
 function wireMessageSending() {
   const btn = document.getElementById("sendMessageBtn");
 
-
   btn.addEventListener("click", () => {
     const extra = document.getElementById("customMessage").value || "";
     const base =
       "Happy Valentine’s Day ❤️🐔\n\n" +
       "I guess I’m officially your Supreme Chicken now 💘\n\n";
 
-
     const fullMessage = encodeURIComponent(base + extra);
 
+    const isAndroid = /android/i.test(navigator.userAgent);
 
-    // Open Messages app
-    window.location.href = `sms:&body=${fullMessage}`;
+    // Platform-correct SMS URI
+    const smsUrl = isAndroid
+      ? `sms:?body=${fullMessage}`   // Android / Samsung
+      : `sms:&body=${fullMessage}`;  // iOS
 
+    // Try primary method
+    window.location.href = smsUrl;
 
-    // After sending → show replay ONLY
+    // Extra-safe fallback 
+    setTimeout(() => {
+      window.open(smsUrl, "_self");
+    }, 100);
+
+    // Continue UX flow
     setTimeout(showReplayOnly, 500);
   });
 }
