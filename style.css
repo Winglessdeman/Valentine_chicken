@@ -1,0 +1,154 @@
+/* Page background */
+body {
+  margin: 0;
+  font-family: 'Comic Sans MS', cursive;
+  background-color: #fff0f5;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container */
+#container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 40px 50px;
+  border-radius: 30px;
+  max-width: 700px;
+  width: 90%;
+  box-shadow: 0 15px 40px rgba(255, 77, 109, 0.2);
+  animation: popIn 0.5s ease;
+}
+
+/* Grid for NO screens */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: center;
+}
+
+.card-text {
+  text-align: left;
+}
+
+/* Images */
+.main-gif {
+  width: 180px;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.layer-chicken {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 20px;
+}
+
+/* Headings */
+.main-question {
+  color: #ff4d6d;
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dramatic {
+  color: #ff4d6d;
+  font-size: 30px;
+}
+
+/* Text */
+p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Buttons */
+.buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+button {
+  font-size: 18px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: #ffffff;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Emoji shake */
+#heartEmoji {
+  display: inline-block;
+}
+
+@keyframes emojiShake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+/* Card animation */
+@keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .card-text {
+    text-align: center;
+  }
+}
+
+.believes {
+  color: #140608;
+}
+
+/*
+#replayBtn:hover {
+  transform: scale(1.05);
+}
+
+*/
+
+@keyframes twinkle {
+  0%   { opacity: 1; transform: scale(1); }
+  50%  { opacity: 0.9; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
