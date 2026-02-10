@@ -1,4 +1,20 @@
 /* =========================================================
+   TYPEWRITER
+   ========================================================= */
+function typeText(el, text, speed, cb) {
+  let i = 0;
+  el.textContent = "";
+  const interval = setInterval(() => {
+    el.textContent += text.charAt(i);
+    i++;
+    if (i === text.length) {
+      clearInterval(interval);
+      if (cb) cb();
+    }
+  }, speed);
+}
+
+/* =========================================================
    SUPREME CHICKEN – CELEBRATION ENGINE 🐔💖
    ========================================================= */
 
@@ -68,93 +84,92 @@ function startBubbles() {
 /* =========================================================
    CHICKEN CHAOS 🐔 (1_chick → 5_chick)
    ========================================================= */
+
 function spawnChickens(onComplete) {
-  const chicks = [
-    "images/1_chick.gif",
-    "images/2_chick.gif",
-    "images/3_chick.gif",
-    "images/4_chick.gif",
-    "images/5_chick.gif"
+  const chicks = Array.from({ length: 10 }, (_, i) =>
+    `images/${i + 1}_chick.gif`
+  );
+
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  const size = Math.min(w, h) * 0.14;
+  const pad = size * 0.9;
+
+  // Positions around the perimeter (safe zone)
+  const positions = [
+    // TOP (3)
+    { x: w * 0.25, y: pad },
+    { x: w * 0.5, y: pad },
+    { x: w * 0.75, y: pad },
+
+    // RIGHT (2)
+    { x: w - pad, y: h * 0.35 },
+    { x: w - pad, y: h * 0.65 },
+
+    // BOTTOM (3)
+    { x: w * 0.25, y: h - pad },
+    { x: w * 0.5, y: h - pad },
+    { x: w * 0.75, y: h - pad },
+
+    // LEFT (2)
+    { x: pad, y: h * 0.35 },
+    { x: pad, y: h * 0.65 }
   ];
 
-
-  let count = 0;
-  const total = 10;
-
-
-  const interval = setInterval(() => {
+  chicks.forEach((src, i) => {
     const img = document.createElement("img");
-    img.src = chicks[Math.floor(Math.random() * chicks.length)];
-    img.style.position = "absolute";
-    img.style.width = "120px";
-    img.style.left = Math.random() * 80 + "vw";
-    img.style.top = Math.random() * 70 + "vh";
-    img.style.transform = "scale(0)";
-    img.style.opacity = "1";
-    img.style.transition = "transform 0.4s ease, opacity 0.4s ease";
+    img.src = src;
+    img.className = "celebration-chicken";
 
+    img.style.position = "fixed";
+    img.style.width = size + "px";
+    img.style.left = positions[i].x + "px";
+    img.style.top = positions[i].y + "px";
+    img.style.transform = "translate(-50%, -50%) scale(0.85)";
+    img.style.opacity = "0";
+    img.style.zIndex = "1"; // behind final card
+    img.style.transition = "opacity 0.6s ease, transform 0.6s ease";
 
     document.body.appendChild(img);
 
-
-    requestAnimationFrame(() => {
-      img.style.transform = "scale(1)";
-    });
-
-
     setTimeout(() => {
-      img.style.opacity = "0";
-      img.style.transform = "scale(0.5)";
-    }, 1200);
+      img.style.opacity = "1";
+      img.style.transform = "translate(-50%, -50%) scale(1)";
+    }, i * 180);
+  });
 
-
-    setTimeout(() => img.remove(), 1800);
-
-
-    count++;
-    if (count === total) {
-      clearInterval(interval);
-      if (onComplete) setTimeout(onComplete, 1200);
-    }
-  }, 350);
+  if (onComplete) {
+    setTimeout(onComplete, 1200);
+  }
 }
 
 
+
 /* =========================================================
-   FINAL MESSAGE CARD (MESSAGE UI HIDDEN INITIALLY)
+   FINAL MESSAGE CARD (TYPEWRITER FLOW)
    ========================================================= */
 function showFinalMessage() {
   const box = document.createElement("div");
   box.className = "final-box";
 
-
   box.innerHTML = `
     <div class="final-card">
 
+      <h1 id="finalTitle" class="final-title"></h1>
 
-      <h1 class="final-title">CONGRATULATIONS</h1>
-
-
-      <p class="final-subtitle">
-        You are officially my<br>
-        <strong>SUPREME CHICKEN</strong>
-      </p>
-
+      <p id="finalSubtitle" class="final-subtitle"></p>
 
       <div id="pulseHeart" class="pulse-heart">💓</div>
 
-
-      <!-- MESSAGE SECTION -->
       <div id="messageSection" style="display:none;">
-        <p class="final-prompt">Write a message for your Valentine 💌</p>
-
+        <p id="finalPrompt" class="final-prompt"></p>
 
         <textarea
           id="customMessage"
           class="message-box"
-          placeholder="Add your own message here… 💕"
+          placeholder="Write your message here… 💕"
         ></textarea>
-
 
         <button id="sendMessageBtn" class="primary-btn">
           💬 Send in Messages
@@ -163,16 +178,34 @@ function showFinalMessage() {
     </div>
   `;
 
-
   document.body.appendChild(box);
 
+  const title = document.getElementById("finalTitle");
+  const subtitle = document.getElementById("finalSubtitle");
+  const prompt = document.getElementById("finalPrompt");
+  const messageSection = document.getElementById("messageSection");
 
-  // Reveal message UI AFTER a short pause
-  setTimeout(() => {
-    document.getElementById("messageSection").style.display = "block";
-    wireHeartPulse();
-    wireMessageSending();
-  }, 800);
+  // TYPEWRITER SEQUENCE
+  typeText(title, "CONGRATULATIONS", 55, () => {
+    typeText(
+      subtitle,
+      "You are officially my\nSUPREME CHICKEN",
+      38,
+      () => {
+        // Add emphasis AFTER typing
+        subtitle.innerHTML = subtitle.textContent.replace(
+          "SUPREME CHICKEN",
+          "<strong>SUPREME CHICKEN</strong>"
+        );
+
+        typeText(prompt, "Write a message for your Valentine 💌", 35, () => {
+          messageSection.style.display = "block";
+          wireHeartPulse();
+          wireMessageSending();
+        });
+      }
+    );
+  });
 }
 
 
@@ -305,7 +338,7 @@ function showReplayGifs() {
 
 
   // Responsive sizing
-  const size = Math.min(w, h) * 0.11;
+  const size = Math.min(w, h) * 0.19;
   const padX = size * 0.8;
   const padY = size * 0.9;
 
@@ -342,7 +375,7 @@ function showReplayGifs() {
 
     img.style.position = "fixed";
     img.style.width = size + "px";
-    img.style.borderRadius = "16px";
+    img.style.borderRadius = "19px";
     img.style.left = positions[i].x + "px";
     img.style.top = positions[i].y + "px";
     img.style.transform = "translate(-50%, -50%) scale(0.85)";
@@ -409,6 +442,12 @@ function injectGlobalAnimations() {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .celebration-chicken {
+      animation: float 3.5s ease-in-out infinite;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
 
